@@ -100,6 +100,10 @@ class Profile
         $stmt = $this->db->query($query);
         $profile = $stmt->fetch();
 
+        if (!$profile) {
+            return false;
+        }
+
         return $profile;
     }
 
@@ -119,6 +123,8 @@ class Profile
                 $data['telephone-type'], $data['main-telephone']);
 
             $this->db->commit();
+
+            return true;
         } catch (Exception $exception) {
             $this->db->rollBack();
             throw $exception;

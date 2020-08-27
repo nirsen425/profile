@@ -40,6 +40,9 @@ class ProfileController
     {
         Helper::startSession();
         $profile = $this->profile->getProfileById($profileId);
+        if (!$profile) {
+            Helper::abort();
+        }
         $emailModel = new Email();
         $telephoneModel = new Telephone();
         $telephoneTypeModel = new TelephoneType();
@@ -49,10 +52,10 @@ class ProfileController
         return true;
     }
 
-    public function actionUpdate($phofileId)
+    public function actionUpdate($profileId)
     {
         $clearData = Helper::getClearData($_POST);
-        $this->profile->updateFullyCompletedProfile($phofileId, $clearData);
+        $this->profile->updateFullyCompletedProfile($profileId, $clearData);
         header("Location: /profiles");
 
         return true;
@@ -61,6 +64,9 @@ class ProfileController
     public function actionShow($profileId)
     {
         $profile = $this->profile->getProfileById($profileId);
+        if (!$profile) {
+            Helper::abort();
+        }
         $emailModel = new Email();
         $telephoneModel = new Telephone();
         $telephoneTypeModel = new TelephoneType();

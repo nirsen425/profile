@@ -1,0 +1,26 @@
+.profile-info {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border: 3px solid #84cd1b;
+}
+
+.email, .telephone {
+    display: flex;
+}
+
+.email div {
+    margin-right: 5px;
+}
+
+.telephone div {
+    margin-right: 5px;
+}
+
+.profile-info > div {
+    padding: 5px;
+}
+
+.title, .main {
+    font-weight: bold;
+}

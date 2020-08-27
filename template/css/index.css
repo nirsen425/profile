@@ -1,0 +1,18 @@
+table {
+    margin-top: 15px;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 5px;
+}
+
+table th, td {
+    padding: 10px 20px;
+}
+
+table tr:first-child {
+    background-color: #84cd1b;
+    color: white;
+    border-radius: 5px;
+}
+
+

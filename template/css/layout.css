@@ -1,0 +1,39 @@
+.wrapper {
+    width: 1270px;
+    margin: auto;
+}
+
+html {
+    background-color: #F8F8FF;
+    padding: 10px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.button {
+    background-color: #84cd1b;
+    color: white;
+    padding: 10px;
+    border: 1px solid #84cd1b;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+a:focus, .button:focus, .button.alt:focus, button:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus {
+    outline: none;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+.errors {
+    color: rgb(255,51,51);
+}
+

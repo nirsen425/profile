@@ -16,10 +16,6 @@ class Profile
 
     public function saveFullyCompletedProfile($data)
     {
-        Session::saveFormDataInSession('profile-create');
-
-        $this->validateDataForSaveProfile($data);
-
         try {
             $this->db->beginTransaction();
 
@@ -31,47 +27,13 @@ class Profile
             $this->telephone->saveTelephones($lastInsertIdProfile, $data['telephone'],
                 $data['telephone-type'], $data['main-telephone']);
 
-            Session::deleteFormDataInSession('profile-create');
-
             $this->db->commit();
         } catch (Exception $exception) {
             $this->db->rollBack();
             throw $exception;
         }
-    }
 
-    private function validateDataForSaveProfile($data)
-    {
-        $telephonesCount = count($data['telephone']);
-        $emailsCount = count($data['email']);
-
-        $validationRules = [
-            'name' => 'required',
-            'patronymic' => 'required',
-            'surname' => 'required',
-            'email' => 'email|unique_array_values|unique:emails,title',
-            'main-email' => 'between:0,' . --$emailsCount,
-            'telephone' => 'required|telephones_format|unique_array_values|unique:telephones,title',
-            'telephone-type' => 'between:1,3',
-            'main-telephone' => 'between:0,' . --$telephonesCount,
-        ];
-
-        $errorMessages = [
-            'name.required' => 'Имя обязательно для заполнения',
-            'patronymic.required' => 'Отчество обязательно для заполнения',
-            'surname.required' => 'Фамилия обязательна для заполнения',
-            'email.email' => 'Некорректный email',
-            'email.unique' => 'Такой email: :value занят',
-            'email.unique_array_values' => "Email'ы не должны повторяться",
-            'main-email.between' => 'Не выбран основной email',
-            'telephone.required' => 'Не указан телефон',
-            'telephone.unique' => 'Такой телефон: :value занят',
-            'telephone.unique_array_values' => 'Телефоны не должны повторяться',
-            'telephone.telephones_format' => 'Неверный формат телефона: :value',
-            'main-telephone.between' => 'Не выбран основной телефон',
-        ];
-
-        Validation::validate($data, $validationRules, $errorMessages);
+        return true;
     }
 
     private function saveProfile($name, $patronymic, $surname)
@@ -109,8 +71,6 @@ class Profile
 
     public function updateFullyCompletedProfile($profileId, $data)
     {
-        $this->validateDataForUpdateProfile($profileId, $data);
-
         try {
             $this->db->beginTransaction();
 
@@ -119,7 +79,7 @@ class Profile
 
             $this->email->changeEmailTable($profileId, $data['email'], $data['main-email']);
 
-            $this->telephone->updateTelephones($profileId, $data['telephone'],
+            $this->telephone->changeTelephoneTable($profileId, $data['telephone'],
                 $data['telephone-type'], $data['main-telephone']);
 
             $this->db->commit();
@@ -129,41 +89,8 @@ class Profile
             $this->db->rollBack();
             throw $exception;
         }
-    }
 
-    private function validateDataForUpdateProfile($profileId, $data)
-    {
-        $telephonesCount = count($data['telephone']);
-        $emailsCount = count($data['email']);
-
-        $validationRules = [
-            'name' => 'required',
-            'patronymic' => 'required',
-            'surname' => 'required',
-            'email' => 'required|email|unique_array_values|unique:emails,title,' . $profileId . ',profile_id',
-            'main-email' => 'between:0,' . --$emailsCount,
-            'telephone' => 'required|telephones_format|unique_array_values|unique:telephones,title,' . $profileId . ',profile_id',
-            'telephone-type' => 'between:1,3',
-            'main-telephone' => 'between:0,' . --$telephonesCount,
-        ];
-
-        $errorMessages = [
-            'name.required' => 'Имя обязательно для заполнения',
-            'patronymic.required' => 'Отчество обязательно для заполнения',
-            'surname.required' => 'Фамилия обязательна для заполнения',
-            'email.email' => 'Некорректный email',
-            'email.required' => 'Не заполнен email',
-            'email.unique_array_values' => "Email'ы не должны повторяться",
-            'email.unique' => 'Такой email: :value уже занят',
-            'main-email.between' => 'Не выбран основной email',
-            'telephone.required' => 'Не указан телефон',
-            'telephone.unique_array_values' => "Телефоны не должны повторяться",
-            'telephone.unique' => 'Такой телефон: :value уже занят',
-            'telephone.telephones_format' => 'Неверный формат телефона: :value',
-            'main-telephone.between' => 'Не выбран основной телефон',
-        ];
-
-        Validation::validate($data, $validationRules, $errorMessages);
+        return true;
     }
 
     private function updateProfile($profileId, $name, $patronymic, $surname)

@@ -6,7 +6,11 @@ function loadClasses($className)
 {
     $arrayPaths = [
         '/models/',
-        '/components/'
+        '/components/',
+        '/components/validators/',
+        '/components/FormValidators/',
+        '/controllers/',
+
     ];
 
     foreach ($arrayPaths as $path) {

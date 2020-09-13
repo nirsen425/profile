@@ -35,12 +35,6 @@ class Router
 
                 $parameters = $segments;
 
-                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
-
-                if (file_exists($controllerFile)) {
-                    require_once $controllerFile;
-                }
-
                 $controllerObject = new $controllerName;
 
                 $result = call_user_func_array([$controllerObject, $actionName], $parameters);
@@ -52,7 +46,9 @@ class Router
         }
 
         if (!isset($result)) {
-            Helper::abort();
+            header("HTTP/1.0 404 Not Found");
+            header("HTTP/1.1 404 Not Found");
+            header("Status: 404 Not Found");
         }
     }
 }

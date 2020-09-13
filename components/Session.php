@@ -16,4 +16,12 @@ class Session
         Helper::startSession();
         unset($_SESSION[$formName]);
     }
+
+    public static function writeArrayInSessionByKey($array, $key)
+    {
+        Helper::startSession();
+        foreach ($array as $k => $v) {
+            $_SESSION[$key][$k] = $v;
+        }
+    }
 }

@@ -62,6 +62,7 @@ class UpdateProfileFormValidator
             [new UniqueArrayValuesValidator('Email\'ы не должны повторяться')], 'email');
 
         $emailValidators = [
+            new RequiredValidator('Не указан email'),
             new EmailValidator('Некорректный email')
         ];
 
@@ -90,7 +91,8 @@ class UpdateProfileFormValidator
             new RequiredValidator('Не указан телефон')
         ];
 
-        $this->validation->isValid($this->data['telephone'], [new UniqueArrayValuesValidator('Телефоны не должны повторяться')], 'telephone');
+        $this->validation->isValid($this->data['telephone'],
+            [new UniqueArrayValuesValidator('Телефоны не должны повторяться')], 'telephone');
 
         foreach ($this->data['telephone'] as $telephone) {
             array_push($telephoneValidators, new UniqueValidator("Такой телефон: $telephone занят",
@@ -110,6 +112,6 @@ class UpdateProfileFormValidator
             new RangeValidator('Не выбран основной телефон', 0, --$telephonesCount)
         ];
 
-        $this->validation->isValid($this->data['main-telephone'], $mainTelephoneValidators, 'main-telephone');
+        $this->validation->isValid($this->data['main-telephone'] ?? null, $mainTelephoneValidators, 'main-telephone');
     }
 }

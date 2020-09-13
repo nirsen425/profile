@@ -105,6 +105,6 @@ class CreateProfileFormValidator
             new RangeValidator('Не выбран основной телефон', 0, --$telephonesCount)
         ];
 
-        $this->validation->isValid($this->data['main-telephone'], $mainTelephoneValidators, 'main-telephone');
+        $this->validation->isValid($this->data['main-telephone'] ?? null, $mainTelephoneValidators, 'main-telephone');
     }
 }
